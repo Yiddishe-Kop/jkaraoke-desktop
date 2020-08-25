@@ -1,0 +1,91 @@
+.transition {
+  transition: all 0.3s ease !important;
+}
+
+.album-cover {
+  animation: spin 5s linear 0s infinite;
+  animation-play-state: running;
+  &.paused {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Page transition
+.slideUp-enter-active {
+  transition: all 0.3s ease-in;
+}
+.slideUp-leave-active {
+  transition: none;
+}
+.slideUp-enter,
+.slideUp-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+// list transition
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(15px);
+}
+
+// Fade transition
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease-in;
+  opacity: 1;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+//Popup transition
+.popup-enter-active,
+.popup-leave-active {
+  transition: all 0.2s ease-in;
+  opacity: 1;
+  transform: none;
+}
+.popup-leave-active {
+  transition: all 0.2s ease-out;
+}
+.popup-enter,
+.popup-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+// Modal transition
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  opacity: 1;
+  transition: all 0.3s ease-in;
+  .modal {
+    transform: none;
+    transition: all 0.3s ease;
+  }
+}
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+  .modal {
+    transform: scale(0.8);
+  }
+}
