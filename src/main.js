@@ -6,7 +6,7 @@ import store from './store'
 
 import PortalVue from 'portal-vue'
 
-import './assets/scss/tailwind.scss'
+import './assets/scss/app.scss'
 import Axios from 'axios';
 
 import DefaultLayout from "@/layouts/Default";

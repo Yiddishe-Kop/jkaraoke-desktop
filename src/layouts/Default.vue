@@ -1,7 +1,7 @@
 <template>
   <div>
     <portal-target name="dropdown" slim />
-    <div class="flex flex-col min-h-screen" @click="hideDropdownMenus">
+    <div class="flex flex-col h-full" @click="hideDropdownMenus">
       <!-- Header -->
       <div class="flex-shrink-0 md:flex">
         <div

@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="text-gray-800 bg-purple-100">
-    <component :is="layout">
+  <div id="app">
+    <component :is="layout" class="w-screen h-screen text-gray-800 bg-purple-100">
       <router-view />
     </component>
   </div>

@@ -1,12 +1,12 @@
 <template>
-  <div class="container px-2 py-12 mx-auto">
+  <div class="flex flex-col h-full bg-purple-900">
     <h1
-      class="text-3xl font-extrabold leading-10 tracking-tight text-center text-purple-900 sm:text-4xl sm:leading-none md:text-5xl"
+      class="my-8 text-2xl font-extrabold leading-10 tracking-tight text-center text-purple-500 sm:text-4xl sm:leading-none md:text-5xl"
     >Music Library</h1>
 
     <!-- Search Bar -->
     <div
-      class="flex items-center max-w-3xl p-3 mx-auto mt-6 space-x-3 bg-purple-200 sm:mt-10 md:mt-12 rounded-xl focus-within:shadow-outline"
+      class="flex items-center w-2/3 max-w-xl p-3 mx-auto space-x-3 bg-purple-200 rounded-xl focus-within:shadow-outline"
     >
       <icon name="search" class="w-6 text-purple-1000" />
       <input
@@ -23,8 +23,7 @@
 
     <!-- Main Songs List -->
     <main
-      class="flex flex-col items-stretch mt-12 overflow-hidden select-none sm:flex-row bg-purple-1000 rounded-xl"
-      style="height: 600px;"
+      class="flex flex-col items-stretch flex-1 mt-12 overflow-hidden select-none sm:flex-row bg-purple-1000"
     >
       <!-- Sidebar -->
       <aside
@@ -68,7 +67,7 @@
         </ul>
       </aside>
       <!-- Songs -->
-      <ul class="flex-1 max-h-full py-2 mx-2 -mr-0.5 space-y-1 overflow-y-auto sm:ml-0">
+      <ul class="flex-1 max-h-full py-2 space-y-1 overflow-y-auto sm:ml-0">
         <transition-group v-if="Object.keys(songs).length" name="list" appear>
           <song-item
             v-for="song in songs"
