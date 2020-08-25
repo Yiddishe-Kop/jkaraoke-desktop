@@ -7,7 +7,7 @@ import store from './store'
 import PortalVue from 'portal-vue'
 
 import './assets/scss/app.scss'
-import Axios from 'axios';
+import axios from './helpers/axios';
 
 import DefaultLayout from "@/layouts/Default";
 import PlayerLayout from "@/layouts/Player";
@@ -28,9 +28,6 @@ Vue.component('Loader', Loader)
 
 Vue.config.productionTip = false
 
-const axios = Axios.create({
-  baseURL: 'https://jkaraoke.test/api'
-});
 Vue.prototype.$http = axios
 
 new Vue({
