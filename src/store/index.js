@@ -9,7 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     auth: {
-      user: null
+      user: null,
     },
     songs: {},
     artists: {},
@@ -27,6 +27,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_USER(state, user) {
+      state.auth.user = user
+    },
     SET_SONGS(state, songs) {
       state.songs = songs
     },

@@ -27,7 +27,7 @@
     >
       <!-- Sidebar -->
       <aside
-        class="p-1 m-2 space-y-1 overflow-y-auto text-purple-800 bg-purple-200 rounded-lg max-h-40 sm:max-h-full sm:w-64"
+        class="p-1 m-2 space-y-1 overflow-y-auto text-purple-800 bg-purple-200 max-h-40 sm:max-h-full sm:w-64"
       >
         <h4 class="flex items-center justify-between m-2 mt-1 font-bold">
           <span class="flex items-center space-x-1">
@@ -43,8 +43,8 @@
             v-for="artist in artists"
             :key="artist.id"
             @click="filters.artist = artist.id"
-            class="flex items-center p-2 transition bg-purple-100 rounded cursor-pointer hover:bg-white"
-            :class="[filters.artist == artist.id ? 'font-bold text-purple-1000' : 'text-purple-600']"
+            class="flex items-center p-2 transition rounded cursor-pointer"
+            :class="[filters.artist == artist.id ? 'bg-purple-700 font-bold hover:bg-purple-600 text-purple-100' : 'bg-purple-100 hover:bg-white text-purple-600']"
           >{{ artist.name }}</li>
         </ul>
         <h4 class="flex items-center justify-between pt-3 m-2 font-bold">
@@ -61,13 +61,13 @@
             v-for="genre in genres"
             :key="genre.id"
             @click="filters.genre = genre.id"
-            class="flex items-center p-2 transition bg-purple-100 rounded cursor-pointer hover:bg-white"
-            :class="[filters.genre == genre.id ? 'font-bold text-purple-1000' : 'text-purple-600']"
+            class="flex items-center p-2 transition rounded cursor-pointer"
+            :class="[filters.genre == genre.id ? 'bg-purple-700 font-bold hover:bg-purple-600 text-purple-100' : 'bg-purple-100 hover:bg-white text-purple-600']"
           >{{ genre.name }}</li>
         </ul>
       </aside>
       <!-- Songs -->
-      <ul class="flex-1 max-h-full py-2 space-y-1 overflow-y-auto sm:ml-0">
+      <ul class="flex-1 max-h-full px-2 py-2 space-y-1 overflow-y-auto sm:pl-0 sm:ml-0">
         <transition-group v-if="Object.keys(songs).length" name="list" appear>
           <song-item
             v-for="song in filteredSongs"
@@ -123,6 +123,15 @@ export default {
         .filter((song) => {
           if (this.filters.genre) {
             return song.genres.some((id) => id == this.filters.genre);
+          }
+          return true;
+        })
+        .filter((song) => {
+          if (/\S/.test(this.filters.search)) {
+            return (
+              !!song.title.match(new RegExp(this.filters.search, "i")) ||
+              !!song.artist.name.match(new RegExp(this.filters.search, "i"))
+            );
           }
           return true;
         });

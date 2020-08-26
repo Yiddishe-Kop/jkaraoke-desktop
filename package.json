@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "electron:build": "vue-cli-service electron:build",
+    "electron:build": "vue-cli-service electron:build -mw",
     "electron:serve": "vue-cli-service electron:serve",
     "hot": "vue-cli-service serve",
     "postinstall": "electron-builder install-app-deps",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@tailwindcss/ui": "^0.3.0",
     "axios": "^0.19.2",
+    "axios-auth-refresh": "^2.2.7",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
     "popper.js": "^1.16.1",
