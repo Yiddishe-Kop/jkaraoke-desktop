@@ -45,6 +45,13 @@ export default {
       err: null,
     };
   },
+  watch: {
+    "$store.state.auth.user": function (user) {
+      if (!!user) {
+        this.$router.push({ name: "Home" });
+      }
+    },
+  },
   methods: {
     async login() {
       this.sending = true;
@@ -55,6 +62,7 @@ export default {
         });
         this.err = null;
         localStorage.setItem("token", res.data.access_token);
+        this.$store.dispatch("getUserData");
       } catch (err) {
         this.err = "Sorry, unauthorized.";
       }

@@ -13,19 +13,18 @@
         <span class="block text-xs leading-3 text-purple-400">Welcome,</span>
         <span class="block mt-1 font-bold leading-none text-purple-600 text-md">{{ user.name }}</span>
       </div>
-      <a
-        class="block px-6 py-2 rounded-none hover:bg-purple-500 hover:text-white"
-        :href="`https://jkaraoke.com/users/${user.id}`"
-      >My Profile</a>
-      <a
-        class="block px-6 py-2 rounded-none hover:bg-purple-500 hover:text-white"
-        href="https://jkaraoke.com/playlists"
-      >My Playlists</a>
-      <router-link
-        class="block px-6 py-2 rounded-none hover:bg-purple-500 hover:text-white"
-        to="/logout"
-        method="post"
-      >Logout</router-link>
+      <div
+        class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
+        @click="openLinkInBrowser(`https://jkaraoke.com/users/${user.id}`)"
+      >My Profile</div>
+      <div
+        class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
+        @click="openLinkInBrowser('https://jkaraoke.com/playlists')"
+      >My Playlists</div>
+      <div
+        class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
+        @click="$store.dispatch('logout')"
+      >Log Out</div>
     </div>
   </dropdown>
   <router-link v-else to="/login">
@@ -36,11 +35,17 @@
 <script>
 import Avatar from "@/components/ui/Avatar";
 import Dropdown from "@/components/ui/Dropdown";
+import { shell } from "electron";
 
 export default {
   name: "UserMenu",
   props: ["user"],
   components: { Dropdown, Avatar },
+  methods: {
+    openLinkInBrowser(url) {
+      shell.openExternal(url);
+    },
+  },
 };
 </script>
 
