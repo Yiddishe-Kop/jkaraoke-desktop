@@ -17,6 +17,8 @@ export default new Vuex.Store({
     artists: {},
     genres: {},
 
+    downloads: {},
+
     modal: {
       open: false,
       icon: 'warning',
@@ -46,12 +48,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async logout(context) {
-      const res = await axios.post("/auth/logout");
-      context.commit("SET_USER", null);
-      localStorage.setItem("token", '');
-      router.push({ name: "Login" });
-    },
     async getUserData(context) {
       const res = await axios.get("/auth/billing");
       console.log(res);
@@ -68,7 +64,14 @@ export default new Vuex.Store({
       context.commit("SET_SONGS", keyBy(songs.data, "id"));
       context.commit("SET_ARTISTS", keyBy(artists.data, "id"));
       context.commit("SET_GENRES", keyBy(genres.data, "id"));
-    }
+    },
+    async logout(context) {
+      const res = await axios.post("/auth/logout");
+      context.commit("SET_USER", null);
+      context.commit("SET_BILLING", null);
+      localStorage.setItem("token", '');
+      router.push({ name: "Login" });
+    },
   },
   modules: {
   },
