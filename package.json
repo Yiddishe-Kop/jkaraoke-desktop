@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "electron:build": "vue-cli-service electron:build -mw",
+    "electron:build": "vue-cli-service electron:build -m",
     "electron:serve": "vue-cli-service electron:serve",
     "hot": "vue-cli-service serve",
     "postinstall": "electron-builder install-app-deps",

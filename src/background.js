@@ -33,9 +33,9 @@ async function createWindow() {
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
-    createProtocol('yiddishe-kop-protocol')
+    createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('yiddishe-kop-protocol://./index.html')
+    win.loadURL('app://./index.html')
   }
 
   win.on('closed', () => {
