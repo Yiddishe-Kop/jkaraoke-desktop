@@ -169,12 +169,23 @@ export default {
         this.$refs.audio.play();
       }
     },
+    shouldPlayOnline() {
+      return !this.$store.state.downloads[this.song.id] && this.$store.state.online;
+    },
     updateAudioSrc() {
-      let cacheBuster = this.canPlay ? '?s' : '?u'; // browser shouldn't cache audio file when user logs out/in
-      const audioSrc = Path.resolve(getSongsFolderPath(), String(this.song.id));
-      this.$refs.audio.src = 'file://' + audioSrc;
-      const reader = new MediaTags.Reader(audioSrc);
-      reader.setFileReader(NodeFileReader);
+      let audioSrc, reader;
+      if (this.shouldPlayOnline()) {
+        audioSrc = `${process.env.VUE_APP_BASE_URL}/api/download/${this.song.id}?play=1&token=${localStorage.getItem(
+          'token'
+        )}`;
+        this.$refs.audio.src = audioSrc;
+        reader = new MediaTags.Reader(audioSrc);
+      } else {
+        audioSrc = Path.resolve(getSongsFolderPath(), String(this.song.id));
+        this.$refs.audio.src = 'file://' + audioSrc;
+        reader = new MediaTags.Reader(audioSrc);
+        reader.setFileReader(NodeFileReader);
+      }
       reader.read({
         onSuccess: (tag) => {
           const picture = tag.tags.picture;
@@ -262,11 +273,17 @@ export default {
       }
     },
     'tracker.durationPlayed': function (durationPlayed) {
-      if (durationPlayed > this.duration * 0.9) {
-        axios.post('/api/views', {
-          user_id: this.$page.auth.user ? this.$page.auth.user.id : 0,
-          song_id: this.song.id,
-        });
+      if (durationPlayed > this.duration * 0.02) {
+        if (this.$store.state.online) {
+          this.$http
+            .post('views', {
+              user_id: this.$store.state.auth.user.id,
+              song_id: this.song.id,
+            })
+            .then((res) => console.log(res.data));
+        } else {
+          this.$store.commit('ADD_VIEW', this.song);
+        }
         this.tracker.durationPlayed = 0;
       }
     },

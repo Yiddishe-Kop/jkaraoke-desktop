@@ -68,7 +68,7 @@
       </aside>
       <!-- Songs -->
       <ul class="flex-1 max-h-full px-2 py-2 space-y-1 overflow-y-auto sm:pl-0 sm:ml-0">
-        <transition-group v-if="Object.keys(songs).length" name="list" appear>
+        <transition-group v-if="Object.keys(filteredSongs).length" name="list" appear>
           <song-item
             v-for="song in filteredSongs"
             :key="song.id"
@@ -89,29 +89,29 @@
 </template>
 
 <script>
-import Avatar from "@/components/ui/Avatar";
-import PlaylistSelectorPopup from "@/components/ui/PlaylistSelectorPopup";
-import SongItem from "@/components/ui/SongItem";
-import addToPlaylist from "@/mixins/addToPlaylist";
-import { mapState } from "vuex";
-import axios from "axios";
-import { timestamp } from "@/helpers/filters";
+import Avatar from '@/components/ui/Avatar';
+import PlaylistSelectorPopup from '@/components/ui/PlaylistSelectorPopup';
+import SongItem from '@/components/ui/SongItem';
+import addToPlaylist from '@/mixins/addToPlaylist';
+import { mapState } from 'vuex';
+import axios from 'axios';
+import { timestamp } from '@/helpers/filters';
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: { Avatar, SongItem, PlaylistSelectorPopup },
   mixins: [addToPlaylist],
   data() {
     return {
       filters: {
-        search: "",
-        artist: "",
-        genre: "",
+        search: '',
+        artist: '',
+        genre: '',
       },
     };
   },
   computed: {
-    ...mapState(["songs", "artists", "genres"]),
+    ...mapState(['songs', 'artists', 'genres']),
     filteredSongs() {
       return Object.values(this.songs)
         .filter((song) => {
@@ -129,8 +129,8 @@ export default {
         .filter((song) => {
           if (/\S/.test(this.filters.search)) {
             return (
-              !!song.title.match(new RegExp(this.filters.search, "i")) ||
-              !!song.artist.name.match(new RegExp(this.filters.search, "i"))
+              !!song.title.match(new RegExp(this.filters.search, 'i')) ||
+              !!song.artist.name.match(new RegExp(this.filters.search, 'i'))
             );
           }
           return true;
@@ -148,8 +148,8 @@ export default {
 
     setTimeout(() => {
       if (!Object.keys(this.songs).length) {
-        console.log("Load songs!");
-        this.$store.dispatch("updateLocalData");
+        console.log('Load songs!');
+        this.$store.dispatch('updateLocalData');
       }
     }, 200);
   },

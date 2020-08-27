@@ -21,6 +21,7 @@ export default new Vuex.Store({
     genres: {},
 
     downloads: {},
+    views: {},
 
     online: false,
 
@@ -50,6 +51,12 @@ export default new Vuex.Store({
     },
     SET_GENRES(state, genres) {
       state.genres = genres
+    },
+    ADD_VIEW(state, song) {
+      if (!state.views[song.id]) {
+        state.views[song.id] = 0
+      }
+      state.views[song.id]++
     },
     ADD_DOWNLOAD(state, song) {
       state.downloads = {
@@ -104,6 +111,22 @@ export default new Vuex.Store({
       })
       router.push({ name: "Login" });
     },
+    goOnline({ state, commit }) {
+      commit('GO_ONLINE')
+      // sync views to server
+      const views = Object.keys(state.views)
+      views.forEach(songId => {
+        axios.post('views', {
+          user_id: state.auth.user.id,
+          song_id: songId,
+          count: Number(state.views[songId])
+        }).then(res => {
+          console.log(res.data.msg);
+        })
+      })
+      // reset local views
+      state.views = {}
+    }
   },
   modules: {
   },

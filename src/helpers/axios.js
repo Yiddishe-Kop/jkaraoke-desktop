@@ -2,7 +2,8 @@ import Axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 const axios = Axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL + '/api'
+  baseURL: process.env.VUE_APP_BASE_URL + '/api',
+  headers: { 'X-Yiddishe-Kop': 'walla!' },
 });
 
 // tell axios to use the Node adapter & not the browser adapter
@@ -18,7 +19,7 @@ axios.interceptors.request.use(config => {
     && token && token != 'null'
     && config.url != LOGIN_URL) {
     config.headers['Authorization'] = `Bearer ${token}`;
-    console.log({ config });
+    // console.log({ config });
   }
   return config;
 })
@@ -28,7 +29,7 @@ const refreshAuthLogic = failedRequest => {
   if (failedRequest.config.url == LOGIN_URL) return Promise.resolve();
   axios.post(TOKEN_REFRESH_URL)
     .then(tokenRefreshResponse => {
-      console.log({ tokenRefreshResponse });
+      // console.log({ tokenRefreshResponse });
       localStorage.setItem('token', tokenRefreshResponse.data.access_token);
       failedRequest.response.config.headers['Authorization'] = `Bearer ${tokenRefreshResponse.data.access_token}`;
       return Promise.resolve();

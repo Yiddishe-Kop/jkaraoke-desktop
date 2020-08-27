@@ -3,7 +3,7 @@
     <icon
       v-if="isOffline"
       name="check-circle"
-      class="w-6 ml-2"
+      class="w-6"
       :class="[dark ? 'text-purple-200' : 'text-purple-600']"
     />
     <icon
@@ -12,7 +12,7 @@
       class="w-6"
       :class="[dark ? 'text-purple-200' : 'text-purple-600']"
     />
-    <progress-circle v-if="loading" :progress="progress" />
+    <progress-circle v-if="loading" :progress="progress" :size="28" />
   </button>
 </template>
 
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     async handleClick() {
+      if (!this.$store.state.online) return;
       if (!this.isOffline) {
         this.loading = true;
         this.download()
@@ -65,11 +66,13 @@ export default {
 
       const response = await this.$http.get(`/download/${this.song.id}`, {
         responseType: 'stream',
-        onDownloadProgress: (progressEvent) => {
-          const total = progressEvent.total;
-          const current = progressEvent.loaded;
-          this.progress = Math.floor((current / total) * 100);
-        },
+      });
+
+      const total = response.headers['content-length'];
+      let current = 0;
+      response.data.on('data', (chunk) => {
+        current += chunk.length;
+        this.progress = Math.floor((current / total) * 100);
       });
 
       response.data.pipe(writer);

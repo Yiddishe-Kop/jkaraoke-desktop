@@ -3,7 +3,7 @@
     <div class="absolute inset-0 bg-purple-gradient"></div>
     <div
       class="absolute inset-0"
-      style="background-color: var(--bg-color, #351884); opacity: var(--bg-opacity); transition: all 0.7s ease-in;"
+      style="background-color: var(--bg-color, #351884); opacity: var(--bg-purple-opacity); transition: all 0.7s ease-in;"
     ></div>
     <div ref="scene" class="absolute inset-0"></div>
   </div>
@@ -26,7 +26,7 @@ export default {
     text() {
       if (this.lyric.text != 'countdown') {
         document.documentElement.style.setProperty('--bg-color', '#ca81ec');
-        document.documentElement.style.setProperty('--bg-opacity', 0);
+        document.documentElement.style.setProperty('--bg-purple-opacity', 0);
         return false;
       }
       const currentSecond = Math.floor(((this.lyric.end - this.lyric.start) * this.animationPercentage) / 100);
@@ -36,7 +36,7 @@ export default {
       const colors = ['#bf0603', '#D20023', '#FB5607', '#FFBE0B', '#E85C90'];
       if (currentSecond < colors.length) {
         document.documentElement.style.setProperty('--bg-color', colors[currentSecond]);
-        document.documentElement.style.setProperty('--bg-opacity', 0.35);
+        document.documentElement.style.setProperty('--bg-purple-opacity', 0.35);
       }
       return String(currentSecond);
     },

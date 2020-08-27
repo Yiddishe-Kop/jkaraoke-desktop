@@ -10,17 +10,21 @@
 export default {
   computed: {
     layout() {
-      return (this.$route.meta.layout || "default") + "-layout";
+      return (this.$route.meta.layout || 'default') + '-layout';
     },
   },
   methods: {
     monitorOnlineStatus() {
-      this.$store.commit(navigator.onLine ? "GO_ONLINE" : "GO_OFFLINE");
+      if (navigator.onLine) {
+        this.$store.dispatch('goOnline');
+      } else {
+        this.$store.commit('GO_OFFLINE');
+      }
     },
   },
   mounted() {
-    window.addEventListener("online", this.monitorOnlineStatus);
-    window.addEventListener("offline", this.monitorOnlineStatus);
+    window.addEventListener('online', this.monitorOnlineStatus);
+    window.addEventListener('offline', this.monitorOnlineStatus);
     this.monitorOnlineStatus();
   },
 };
