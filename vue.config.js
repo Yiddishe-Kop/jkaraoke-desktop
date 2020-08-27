@@ -4,7 +4,6 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
-      customFileProtocol: 'yiddishe-kop-protocol://./',
       builderOptions: {
         // options placed here will be merged with default configuration and passed to electron-builder
         productName: 'jKaraoke Desktop',

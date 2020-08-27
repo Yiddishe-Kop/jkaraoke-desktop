@@ -24,7 +24,7 @@ async function createWindow() {
       // devTools: isDevelopment,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      // webSecurity: false,
+      webSecurity: false,
     }
   })
 
@@ -64,8 +64,8 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  // if (isDevelopment && !process.env.IS_TEST) {
-  if (true) {
+  if (isDevelopment && !process.env.IS_TEST) {
+    // if (true) {
     // Install Vue Devtools
     // Devtools extensions are broken in Electron 6.0.0 and greater
     // See https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378 for more info
@@ -80,7 +80,7 @@ app.on('ready', async () => {
 
   }
 
-  registerLocalResourceProtocol()
+  // registerLocalResourceProtocol()
   createWindow()
 })
 
@@ -100,17 +100,17 @@ if (isDevelopment) {
 }
 
 
-function registerLocalResourceProtocol() {
-  protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
-    const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '')
-    // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
-    const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
-    console.log('!!!');
-    try {
-      return callback(decodedUrl)
-    }
-    catch (error) {
-      console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
-    }
-  })
-}
+// function registerLocalResourceProtocol() {
+//   protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
+//     const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '')
+//     // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
+//     const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
+//     console.log('!!!');
+//     try {
+//       return callback(decodedUrl)
+//     }
+//     catch (error) {
+//       console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
+//     }
+//   })
+// }
