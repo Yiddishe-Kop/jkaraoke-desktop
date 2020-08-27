@@ -149,6 +149,7 @@ export default {
     setTimeout(() => {
       if (!Object.keys(this.songs).length) {
         console.log('Load songs!');
+        // TODO: pereodically check subscription status
         this.$store.dispatch('updateLocalData');
       }
     }, 200);

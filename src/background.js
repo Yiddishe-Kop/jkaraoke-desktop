@@ -21,8 +21,8 @@ async function createWindow() {
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       devTools: true,
-      devTools: isDevelopment,
-      // nodeIntegration: true,
+      // devTools: isDevelopment,
+      nodeIntegration: true,
       nodeIntegrationInWorker: true,
       // webSecurity: false,
     }
@@ -33,9 +33,9 @@ async function createWindow() {
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
-    createProtocol('app')
+    createProtocol('yiddishe-kop-protocol')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    win.loadURL('yiddishe-kop-protocol://./index.html')
   }
 
   win.on('closed', () => {
@@ -64,7 +64,8 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  // if (isDevelopment && !process.env.IS_TEST) {
+  if (true) {
     // Install Vue Devtools
     // Devtools extensions are broken in Electron 6.0.0 and greater
     // See https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378 for more info
@@ -100,8 +101,8 @@ if (isDevelopment) {
 
 
 function registerLocalResourceProtocol() {
-  protocol.registerFileProtocol('local-resource', (request, callback) => {
-    const url = request.url.replace(/^local-resource:\/\//, '')
+  protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
+    const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '')
     // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
     const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
     console.log('!!!');

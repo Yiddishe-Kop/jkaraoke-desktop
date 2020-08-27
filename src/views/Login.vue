@@ -64,6 +64,7 @@ export default {
         localStorage.setItem('token', res.data.access_token);
         this.$store.dispatch('getUserData');
       } catch (err) {
+        console.log({ err });
         this.err = 'Sorry, unauthorized.';
       }
       this.sending = false;
