@@ -173,6 +173,7 @@ export default {
       return !this.$store.state.downloads[this.song.id] && this.$store.state.online;
     },
     updateAudioSrc() {
+      this.loading = true;
       let audioSrc, reader;
       if (this.shouldPlayOnline()) {
         audioSrc = `${process.env.VUE_APP_BASE_URL}/api/download/${this.song.id}?play=1&token=${localStorage.getItem(
@@ -205,18 +206,18 @@ export default {
       // this.errorMessage = 'Please log in 😀';
     },
     playNext(e) {
-      if (!this.$page.currentPlaylist) return;
-      const currentPlaylist = this.$page.playlists.find((p) => p.id == Number(this.$page.currentPlaylist));
-      const songs = currentPlaylist.songs;
-      const currentSongIndex = songs.findIndex((s) => s.id == this.song.id);
-      if (currentSongIndex >= songs.length - 1) return;
-      const nextSong = songs[currentSongIndex + 1];
-      this.$inertia.visit(
-        this.route('music.player', {
-          song: nextSong.id,
-          playlist: currentPlaylist.id,
-        })
-      );
+      // if (!this.$page.currentPlaylist) return;
+      // const currentPlaylist = this.$page.playlists.find((p) => p.id == Number(this.$page.currentPlaylist));
+      // const songs = currentPlaylist.songs;
+      // const currentSongIndex = songs.findIndex((s) => s.id == this.song.id);
+      // if (currentSongIndex >= songs.length - 1) return;
+      // const nextSong = songs[currentSongIndex + 1];
+      // this.$inertia.visit(
+      //   this.route('music.player', {
+      //     song: nextSong.id,
+      //     playlist: currentPlaylist.id,
+      //   })
+      // );
     },
     showSubscribePopup() {
       this.$page.modal = {
@@ -256,6 +257,10 @@ export default {
     timestamp,
   },
   watch: {
+    song(newSong) {
+      console.log('changed!');
+      this.updateAudioSrc();
+    },
     isPlaying(playing) {
       this.$emit(playing ? 'play' : 'pause');
     },
@@ -273,7 +278,7 @@ export default {
       }
     },
     'tracker.durationPlayed': function (durationPlayed) {
-      if (durationPlayed > this.duration * 0.02) {
+      if (durationPlayed > this.duration * 0.9) {
         if (this.$store.state.online) {
           this.$http
             .post('views', {
@@ -289,9 +294,6 @@ export default {
     },
   },
   mounted() {
-    if (!this.song.audio_path) {
-      // this.disabled = true;
-    }
     this.audio = this.$refs.audio;
     this.updateAudioSrc();
   },

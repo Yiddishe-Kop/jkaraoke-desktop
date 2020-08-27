@@ -6,7 +6,7 @@ export function getSongsFolderPath() {
   const userDataPath = (electron.app || electron.remote.app).getPath(
     "userData"
   );
-  const songsFolder = Path.resolve(userDataPath, "songs");
+  const songsFolder = Path.resolve(userDataPath, "blob");
   if (!Fs.existsSync(songsFolder)) {
     Fs.mkdirSync(songsFolder);
   }

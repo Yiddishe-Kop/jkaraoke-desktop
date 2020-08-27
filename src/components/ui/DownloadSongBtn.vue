@@ -1,8 +1,12 @@
 <template>
-  <button @click="handleClick">
+  <button
+    @click="handleClick"
+    @mouseenter="offlineIcon = 'trash'"
+    @mouseleave="offlineIcon = 'check-circle'"
+  >
     <icon
       v-if="isOffline"
-      name="check-circle"
+      :name="offlineIcon"
       class="w-6"
       :class="[dark ? 'text-purple-200' : 'text-purple-600']"
     />
@@ -31,6 +35,7 @@ export default {
     return {
       loading: false,
       progress: 0,
+      offlineIcon: 'check-circle',
     };
   },
   computed: {

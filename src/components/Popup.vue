@@ -4,7 +4,7 @@
       class="absolute z-50 origin-top-right bg-purple-100 shadow-xl w-80 top-6 right-6 rounded-xl text-purple-1000"
     >
       <div @click.self="$emit('update:show-popup', false)" class="fixed inset-0 z-0"></div>
-      <div class="relative z-50 flex justify-center mt-2 space-x-2 text-sm">
+      <!-- <div class="relative z-50 flex justify-center mt-2 space-x-2 text-sm">
         <button
           @click.stop="$emit('update:tab', 'search')"
           class="p-1 font-bold border-b-2 rounded-none"
@@ -19,7 +19,7 @@
         >
           <icon name="list" class="inline w-4" />Playlists
         </button>
-      </div>
+      </div>-->
       <div v-if="tab == 'search'">
         <div class="relative z-50 m-2">
           <input
@@ -50,20 +50,20 @@
 </template>
 
 <script>
-import { timestamp } from "@/helpers/filters";
-import SongItem from "@/components/ui/SongItem";
+import { timestamp } from '@/helpers/filters';
+import SongItem from '@/components/ui/SongItem';
 // import PlaylistViewer from '@/components/PlaylistViewer';
 // import PlaylistSelectorPopup from '@/components/ui/PlaylistSelectorPopup';
 // import addToPlaylist from '@/mixins/addToPlaylist';
 
 export default {
-  name: "Popup",
+  name: 'Popup',
   components: { SongItem /* PlaylistViewer, PlaylistSelectorPopup */ },
-  props: ["showPopup", "tab"],
+  props: ['showPopup', 'tab'],
   // mixins: [addToPlaylist],
   data() {
     return {
-      query: "",
+      query: '',
       isLoading: false,
       songs: [],
     };
@@ -74,18 +74,23 @@ export default {
   methods: {
     async search() {
       this.isLoading = true;
-      let results = await this.$http.get("songs/search", {
-        params: {
-          search: this.query,
-        },
-      });
+
+      let results = [];
+      if (this.$store.state.online) {
+        const res = await this.$http.get('songs/search', {
+          params: {
+            search: this.query,
+          },
+        });
+        results = res.data;
+      }
       this.isLoading = false;
-      this.songs = results.data;
+      this.songs = results;
     },
   },
   watch: {
     async showPopup(newVal) {
-      if (newVal && this.tab == "search") {
+      if (newVal && this.tab == 'search') {
         await this.$nextTick();
         this.$refs.input.focus();
       }

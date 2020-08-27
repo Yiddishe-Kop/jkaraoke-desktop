@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import SwipingLyric from "@/components/SwipingLyric";
-import AudioPlayer from "@/components/AudioPlayer";
-import Popup from "@/components/Popup";
-import AudioVisualizer from "@/components/AudioVisualizer";
+import SwipingLyric from '@/components/SwipingLyric';
+import AudioPlayer from '@/components/AudioPlayer';
+import Popup from '@/components/Popup';
+import AudioVisualizer from '@/components/AudioVisualizer';
 
 export default {
-  name: "PlayerPage",
+  name: 'PlayerPage',
   components: { SwipingLyric, AudioPlayer, AudioVisualizer, Popup },
   data() {
     return {
@@ -54,14 +54,14 @@ export default {
       timeline: [],
       timelineArr: [],
       showLyricIndex: 0,
-      transition: "none",
+      transition: 'none',
       showPopup: false,
-      tab: "search",
+      tab: 'search',
     };
   },
   computed: {
     song() {
-      return this.$store.state.songs[this.$route.params.id];
+      return this.$store.state.songs[this.songId || this.$route.params.id];
     },
     time() {
       if (!this.audio) return 0;
@@ -70,39 +70,27 @@ export default {
     currentLyricsGroup() {
       let group;
       this.timeline.forEach((g) => {
-        let withinCurrentTime =
-          g[0].start < this.time && g[g.length - 1].end > this.time;
+        let withinCurrentTime = g[0].start < this.time && g[g.length - 1].end > this.time;
         if (withinCurrentTime) group = g;
       });
       return group || [];
     },
     currentLyric() {
-      const placeholder = { index: undefined, start: 0, end: 0, text: "" };
+      const placeholder = { index: undefined, start: 0, end: 0, text: '' };
       let current = placeholder;
-      current =
-        this.currentLyricsGroup.find(
-          (l) => l.start < this.time && l.end > this.time
-        ) || placeholder;
+      current = this.currentLyricsGroup.find((l) => l.start < this.time && l.end > this.time) || placeholder;
       return current;
     },
     animationPercentage() {
       const currentLyric = this.currentLyric;
-      if (
-        typeof currentLyric.start != "number" ||
-        currentLyric.index === undefined
-      )
-        return {};
-      const start = currentLyric.pauseStart
-        ? currentLyric.start + 1
-        : currentLyric.start;
+      if (typeof currentLyric.start != 'number' || currentLyric.index === undefined) return {};
+      const start = currentLyric.pauseStart ? currentLyric.start + 1 : currentLyric.start;
       const length = currentLyric.end - start;
       let normalizedCurrentTime = this.time - start;
       return 100 - (normalizedCurrentTime / length) * 100;
     },
     hasLyricInFuture() {
-      return !!this.currentLyricsGroup.find(
-        (l) => l.text != "countdown" && l.end > this.time
-      );
+      return !!this.currentLyricsGroup.find((l) => l.text != 'countdown' && l.end > this.time);
     },
   },
   methods: {
@@ -125,10 +113,7 @@ export default {
       if (lyricsHeight > availableHeight) {
         percentageToScaleDownY = availableHeight / lyricsHeight;
       }
-      lyricsEl.style.transform = `scale(${Math.min(
-        percentageToScaleDownY,
-        percentageToScaleDownX
-      )})`;
+      lyricsEl.style.transform = `scale(${Math.min(percentageToScaleDownY, percentageToScaleDownX)})`;
       this.$el.style.paddingBottom = `${controlsHeight}px`;
     },
     structureTimeline() {
@@ -139,7 +124,7 @@ export default {
           // first lyric
           // always add a full countdown at beginning of song
           timeline[0] = {
-            text: "countdown",
+            text: 'countdown',
             start: 0,
             end: l.start - 1,
           };
@@ -152,7 +137,7 @@ export default {
             // show countdown
             let countdownStart = prevLyric.end + 1;
             timeline[countdownStart] = {
-              text: "countdown",
+              text: 'countdown',
               start: countdownStart,
               end: l.start - 1,
             };
@@ -171,7 +156,7 @@ export default {
 
       const previousLyric = (index) => {
         let prev = this.timelineArr[index - 1];
-        while (prev.text == "countdown" && prev.index > 0) {
+        while (prev.text == 'countdown' && prev.index > 0) {
           prev = this.timelineArr[prev.index - 1];
         }
         return prev;
@@ -183,10 +168,7 @@ export default {
         if (i === 0) {
           chunk.push(l);
         } else {
-          if (
-            chunk.filter((j) => j.text !== "countdown").length < 4 &&
-            previousLyric(i).end > l.start - 5
-          ) {
+          if (chunk.filter((j) => j.text !== 'countdown').length < 4 && previousLyric(i).end > l.start - 5) {
             chunk.push(l);
           } else {
             chunks.push(chunk);
@@ -206,12 +188,12 @@ export default {
     this.resizeLyrics();
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.resizeLyrics);
+    window.removeEventListener('resize', this.resizeLyrics);
   },
   mounted() {
     this.audio = this.$refs.audio;
     this.structureTimeline();
-    window.addEventListener("resize", this.resizeLyrics);
+    window.addEventListener('resize', this.resizeLyrics);
   },
 };
 </script>
