@@ -30,25 +30,25 @@
 </template>
 
 <script>
-import Logo from "../components/ui/Logo";
-import LoadingButton from "@/components/ui/LoadingButton";
-import { shell } from "electron";
+import Logo from '../components/ui/Logo';
+import LoadingButton from '@/components/ui/LoadingButton';
+import { shell } from 'electron';
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: { Logo, LoadingButton },
   data() {
     return {
-      email: "newgraphil@gmail.com",
-      password: "12345678",
+      email: '',
+      password: '',
       sending: false,
       err: null,
     };
   },
   watch: {
-    "$store.state.auth.user": function (user) {
+    '$store.state.auth.user': function (user) {
       if (!!user) {
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: 'Home' });
       }
     },
   },
@@ -56,20 +56,20 @@ export default {
     async login() {
       this.sending = true;
       try {
-        const res = await this.$http.post("/auth/login", {
+        const res = await this.$http.post('/auth/login', {
           email: this.email,
           password: this.password,
         });
         this.err = null;
-        localStorage.setItem("token", res.data.access_token);
-        this.$store.dispatch("getUserData");
+        localStorage.setItem('token', res.data.access_token);
+        this.$store.dispatch('getUserData');
       } catch (err) {
-        this.err = "Sorry, unauthorized.";
+        this.err = 'Sorry, unauthorized.';
       }
       this.sending = false;
     },
     register() {
-      shell.openExternal("https://jkaraoke.com/register");
+      shell.openExternal('https://jkaraoke.com/register');
     },
   },
 };

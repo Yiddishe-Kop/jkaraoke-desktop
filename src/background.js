@@ -21,9 +21,10 @@ async function createWindow() {
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       devTools: true,
-      nodeIntegration: true,
+      devTools: isDevelopment,
+      // nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      webSecurity: false,
+      // webSecurity: false,
     }
   })
 
@@ -77,6 +78,8 @@ app.on('ready', async () => {
     }
 
   }
+
+  registerLocalResourceProtocol()
   createWindow()
 })
 
@@ -93,4 +96,20 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}
+
+
+function registerLocalResourceProtocol() {
+  protocol.registerFileProtocol('local-resource', (request, callback) => {
+    const url = request.url.replace(/^local-resource:\/\//, '')
+    // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
+    const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
+    console.log('!!!');
+    try {
+      return callback(decodedUrl)
+    }
+    catch (error) {
+      console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
+    }
+  })
 }
