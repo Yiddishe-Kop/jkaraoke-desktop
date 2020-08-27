@@ -45,7 +45,16 @@ export default new Vuex.Store({
     },
     SET_GENRES(state, genres) {
       state.genres = genres
-    }
+    },
+    ADD_DOWNLOAD(state, song) {
+      state.downloads = {
+        ...state.downloads,
+        [song.id]: true
+      }
+    },
+    REMOVE_DOWNLOAD(state, song) {
+      Vue.delete(state.downloads, song.id)
+    },
   },
   actions: {
     async getUserData(context) {

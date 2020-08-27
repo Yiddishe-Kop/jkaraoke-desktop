@@ -1,7 +1,13 @@
 <template>
-  <button @click.stop="download" class="ml-2">
+  <button @click="handleClick">
     <icon
-      v-if="!loading"
+      v-if="isOffline"
+      name="check-circle"
+      class="w-6 ml-2"
+      :class="[dark ? 'text-purple-200' : 'text-purple-600']"
+    />
+    <icon
+      v-else-if="!loading"
       name="download"
       class="w-6"
       :class="[dark ? 'text-purple-200' : 'text-purple-600']"
@@ -14,6 +20,9 @@
 import ProgressCircle from "@/components/ui/ProgressCircle";
 import electron from "electron";
 import fse from "fs-extra";
+import Fs from "fs";
+import Path from "path";
+import { mapState } from "vuex";
 
 export default {
   name: "DownloadSongBtn",
@@ -25,44 +34,73 @@ export default {
       progress: 0,
     };
   },
-  methods: {
-    async download() {
-      this.loading = true;
-
-      const res = this.$http
-        .get(`/download/${this.song.id}`, {
-          responseType: "blob",
-          onDownloadProgress: (progressEvent) => {
-            const total = progressEvent.total;
-            const current = progressEvent.loaded;
-            this.progress = Math.floor((current / total) * 100);
-          },
-        })
-        .then(async (res) => {
-          const blob = await res.data.text();
-          this.saveFile(blob);
-        })
-        .catch((err) => {});
-
-      this.progress = 0;
-      this.loading = false;
-      // const blob = await res.blob();
-      // console.log(await res.data.text());
-      // console.log(new File([res.data], "filename.mp3"));
+  computed: {
+    ...mapState(["downloads"]),
+    isOffline() {
+      return this.downloads[this.song.id];
     },
-    async saveFile(blob) {
-      const filename = "filename.mp3";
+  },
+  methods: {
+    async handleClick() {
+      if (!this.isOffline) {
+        this.loading = true;
+        this.download()
+          .then(() => {
+            this.progress = 0;
+            this.loading = false;
+            this.$store.commit("ADD_DOWNLOAD", this.song);
+          })
+          .catch((err) => {
+            this.progress = 0;
+            this.loading = false;
+            console.log(err);
+          });
+      } else {
+        this.removeDownload();
+      }
+    },
+    async download() {
+      const filename = `${this.song.id}`;
+
+      const writer = Fs.createWriteStream(
+        Path.resolve(this.getSongsFolderPath(), filename)
+      );
+
+      const response = await this.$http.get(`/download/${this.song.id}`, {
+        responseType: "stream",
+        onDownloadProgress: (progressEvent) => {
+          const total = progressEvent.total;
+          const current = progressEvent.loaded;
+          this.progress = Math.floor((current / total) * 100);
+        },
+      });
+
+      response.data.pipe(writer);
+      console.log(response);
+
+      return new Promise((resolve, reject) => {
+        writer.on("finish", resolve);
+        writer.on("pipe", () => console.log("piping"));
+        writer.on("error", reject);
+      });
+    },
+    removeDownload() {
+      Fs.unlink(
+        Path.resolve(this.getSongsFolderPath(), String(this.song.id)),
+        () => {
+          this.$store.commit("REMOVE_DOWNLOAD", this.song);
+        }
+      );
+    },
+    getSongsFolderPath() {
       const userDataPath = (electron.app || electron.remote.app).getPath(
         "userData"
       );
-      fse
-        .outputFile(`${userDataPath}/songs/${filename}`, blob)
-        .then((file) => {
-          console.log({ file });
-        })
-        .catch((err) => {
-          console.log({ err });
-        });
+      const songsFolder = Path.resolve(userDataPath, "songs");
+      if (!Fs.existsSync(songsFolder)) {
+        Fs.mkdirSync(songsFolder);
+      }
+      return songsFolder;
     },
   },
 };

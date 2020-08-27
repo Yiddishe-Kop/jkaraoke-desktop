@@ -20,7 +20,8 @@
       class="mx-4 text-sm font-semibold leading-none"
       :class="[dark ? 'text-purple-200' : 'text-purple-600']"
     >{{ song.duration | timestamp }}</span>
-    <download-button :song="song" :dark="dark" />
+
+    <download-button :song="song" :dark="dark" class="ml-2" />
     <router-link
       :to="canPlay(song) ? { name: 'Player', params: { id: song.id }} : { name: 'Home' }"
       class="ml-4"

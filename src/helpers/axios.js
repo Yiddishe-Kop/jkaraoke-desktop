@@ -6,6 +6,9 @@ const axios = Axios.create({
   baseURL: process.env.VUE_APP_BASE_URL + '/api'
 });
 
+// tell axios to use the Node adapter & not the browser adapter
+axios.defaults.adapter = require('axios/lib/adapters/http');
+
 const TOKEN_REFRESH_URL = '/auth/refresh'
 const LOGIN_URL = '/auth/login'
 
