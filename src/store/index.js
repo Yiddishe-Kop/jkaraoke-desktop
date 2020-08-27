@@ -4,6 +4,9 @@ import { createPersistedState } from "vuex-electron"
 import axios from '../helpers/axios';
 import keyBy from "lodash/keyBy";
 import router from '../router';
+import Fs from 'fs'
+import Path from 'path'
+import { getSongsFolderPath } from '@/helpers/paths';
 
 Vue.use(Vuex)
 
@@ -18,6 +21,8 @@ export default new Vuex.Store({
     genres: {},
 
     downloads: {},
+
+    online: false,
 
     modal: {
       open: false,
@@ -55,6 +60,12 @@ export default new Vuex.Store({
     REMOVE_DOWNLOAD(state, song) {
       Vue.delete(state.downloads, song.id)
     },
+    GO_ONLINE(state) {
+      state.online = true
+    },
+    GO_OFFLINE(state) {
+      state.online = false
+    },
   },
   actions: {
     async getUserData(context) {
@@ -74,11 +85,23 @@ export default new Vuex.Store({
       context.commit("SET_ARTISTS", keyBy(artists.data, "id"));
       context.commit("SET_GENRES", keyBy(genres.data, "id"));
     },
-    async logout(context) {
-      const res = await axios.post("/auth/logout");
-      context.commit("SET_USER", null);
-      context.commit("SET_BILLING", null);
+    removeDownload({ commit }, song) {
+      Fs.unlink(
+        Path.resolve(getSongsFolderPath(), String(song.id)),
+        () => {
+          commit("REMOVE_DOWNLOAD", song);
+        }
+      );
+    },
+    async logout({ commit, dispatch, state }) {
+      await axios.post("/auth/logout");
+      commit("SET_USER", null);
+      commit("SET_BILLING", null);
       localStorage.setItem("token", '');
+      // remove all downloaded songs
+      Object.keys(state.downloads).forEach(songId => {
+        dispatch('removeDownload', state.songs[songId])
+      })
       router.push({ name: "Login" });
     },
   },

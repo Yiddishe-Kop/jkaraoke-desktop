@@ -8,6 +8,7 @@ import PortalVue from 'portal-vue'
 
 import './assets/scss/app.scss'
 import axios from './helpers/axios';
+import '@/helpers/lib'
 
 import DefaultLayout from "@/layouts/Default";
 import PlayerLayout from "@/layouts/Player";

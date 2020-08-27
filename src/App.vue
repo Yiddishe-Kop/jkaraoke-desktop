@@ -13,6 +13,16 @@ export default {
       return (this.$route.meta.layout || "default") + "-layout";
     },
   },
+  methods: {
+    monitorOnlineStatus() {
+      this.$store.commit(navigator.onLine ? "GO_ONLINE" : "GO_OFFLINE");
+    },
+  },
+  mounted() {
+    window.addEventListener("online", this.monitorOnlineStatus);
+    window.addEventListener("offline", this.monitorOnlineStatus);
+    this.monitorOnlineStatus();
+  },
 };
 </script>
 

@@ -17,16 +17,15 @@
 </template>
 
 <script>
-import ProgressCircle from "@/components/ui/ProgressCircle";
-import electron from "electron";
-import fse from "fs-extra";
-import Fs from "fs";
-import Path from "path";
-import { mapState } from "vuex";
+import ProgressCircle from '@/components/ui/ProgressCircle';
+import Fs from 'fs';
+import Path from 'path';
+import { mapState } from 'vuex';
+import { getSongsFolderPath } from '@/helpers/paths';
 
 export default {
-  name: "DownloadSongBtn",
-  props: ["song", "dark"],
+  name: 'DownloadSongBtn',
+  props: ['song', 'dark'],
   components: { ProgressCircle },
   data() {
     return {
@@ -35,7 +34,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["downloads"]),
+    ...mapState(['downloads']),
     isOffline() {
       return this.downloads[this.song.id];
     },
@@ -48,7 +47,7 @@ export default {
           .then(() => {
             this.progress = 0;
             this.loading = false;
-            this.$store.commit("ADD_DOWNLOAD", this.song);
+            this.$store.commit('ADD_DOWNLOAD', this.song);
           })
           .catch((err) => {
             this.progress = 0;
@@ -56,18 +55,16 @@ export default {
             console.log(err);
           });
       } else {
-        this.removeDownload();
+        this.$store.dispatch('removeDownload', this.song);
       }
     },
     async download() {
       const filename = `${this.song.id}`;
 
-      const writer = Fs.createWriteStream(
-        Path.resolve(this.getSongsFolderPath(), filename)
-      );
+      const writer = Fs.createWriteStream(Path.resolve(getSongsFolderPath(), filename));
 
       const response = await this.$http.get(`/download/${this.song.id}`, {
-        responseType: "stream",
+        responseType: 'stream',
         onDownloadProgress: (progressEvent) => {
           const total = progressEvent.total;
           const current = progressEvent.loaded;
@@ -76,31 +73,12 @@ export default {
       });
 
       response.data.pipe(writer);
-      console.log(response);
 
       return new Promise((resolve, reject) => {
-        writer.on("finish", resolve);
-        writer.on("pipe", () => console.log("piping"));
-        writer.on("error", reject);
+        writer.on('finish', resolve);
+        writer.on('pipe', () => console.log('piping'));
+        writer.on('error', reject);
       });
-    },
-    removeDownload() {
-      Fs.unlink(
-        Path.resolve(this.getSongsFolderPath(), String(this.song.id)),
-        () => {
-          this.$store.commit("REMOVE_DOWNLOAD", this.song);
-        }
-      );
-    },
-    getSongsFolderPath() {
-      const userDataPath = (electron.app || electron.remote.app).getPath(
-        "userData"
-      );
-      const songsFolder = Path.resolve(userDataPath, "songs");
-      if (!Fs.existsSync(songsFolder)) {
-        Fs.mkdirSync(songsFolder);
-      }
-      return songsFolder;
     },
   },
 };

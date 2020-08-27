@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
-import store from '@/store'
 
 const axios = Axios.create({
   baseURL: process.env.VUE_APP_BASE_URL + '/api'
