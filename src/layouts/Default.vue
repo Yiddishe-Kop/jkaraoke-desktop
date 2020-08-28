@@ -5,7 +5,7 @@
       <!-- Header -->
       <div class="flex-shrink-0 md:flex">
         <div
-          class="relative flex items-center justify-between w-full px-4 py-2 text-sm bg-purple-900 md:px-12 md:text-md"
+          class="relative flex items-center justify-between w-full px-4 py-2 text-sm bg-purple-900 md:px-12 md:text-md draggable"
         >
           <logo class="w-32 h-12 mr-4" />
           <main-menu />
@@ -37,14 +37,14 @@
 </template>
 
 <script>
-import Logo from "@/components/ui/Logo";
-import UserMenu from "@/components/ui/UserMenu";
-import Modal from "@/components/ui/Modal";
-import MainMenu from "@/components/ui/MainMenuFrontend";
-import { mapState } from "vuex";
+import Logo from '@/components/ui/Logo';
+import UserMenu from '@/components/ui/UserMenu';
+import Modal from '@/components/ui/Modal';
+import MainMenu from '@/components/ui/MainMenuFrontend';
+import { mapState } from 'vuex';
 
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: { UserMenu, Logo, MainMenu, Modal },
   data() {
     return {
@@ -52,7 +52,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["auth"]),
+    ...mapState(['auth']),
   },
   methods: {
     url() {

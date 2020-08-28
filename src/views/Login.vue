@@ -1,5 +1,5 @@
 <template>
-  <div class="relative p-6 text-purple-900 bg-purple-100 rounded-lg">
+  <div class="relative p-6 text-purple-900 bg-purple-100 rounded-lg no-drag">
     <logo class="relative w-48 h-24 bottom-36" />
 
     <div class="mt-4 text-center">

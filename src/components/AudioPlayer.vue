@@ -10,7 +10,6 @@
       @error="showErrorMessage"
       @loadedmetadata="setDuration"
       @ended="playNext"
-      crossorigin="anonymous"
     ></audio>
 
     <div
@@ -184,7 +183,8 @@ export default {
         reader = new MediaTags.Reader(audioSrc);
       } else {
         audioSrc = Path.resolve(getSongsFolderPath(), String(this.song.id));
-        this.$refs.audio.src = 'file://' + audioSrc;
+        // this.$refs.audio.src = 'file://' + audioSrc;
+        this.$refs.audio.src = 'yiddishe-kop-protocol://' + audioSrc;
         reader = new MediaTags.Reader(audioSrc);
         reader.setFileReader(NodeFileReader);
       }

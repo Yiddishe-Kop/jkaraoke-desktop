@@ -1,5 +1,8 @@
 <template>
-  <div class="relative flex items-center justify-center h-full" style="line-height: 1.25;">
+  <div
+    class="relative flex items-center justify-center h-full draggable"
+    style="line-height: 1.25;"
+  >
     <audio-visualizer
       :audio="audio"
       :lyric="currentLyric"
@@ -28,7 +31,7 @@
           :song="song"
           @play="transition = '0.2s linear'"
           @pause="transition = 'none'"
-          class="max-w-4xl mx-auto"
+          class="max-w-4xl mx-auto no-drag"
           ref="audio"
           :show-popup.sync="showPopup"
           :tab.sync="tab"

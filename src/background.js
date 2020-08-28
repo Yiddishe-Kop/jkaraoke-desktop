@@ -80,7 +80,7 @@ app.on('ready', async () => {
 
   }
 
-  // registerLocalResourceProtocol()
+  registerLocalResourceProtocol()
   createWindow()
 })
 
@@ -100,17 +100,17 @@ if (isDevelopment) {
 }
 
 
-// function registerLocalResourceProtocol() {
-//   protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
-//     const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '')
-//     // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
-//     const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
-//     console.log('!!!');
-//     try {
-//       return callback(decodedUrl)
-//     }
-//     catch (error) {
-//       console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
-//     }
-//   })
-// }
+function registerLocalResourceProtocol() {
+  protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
+    const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '')
+    // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
+    const decodedUrl = decodeURI(url) // Needed in case URL contains spaces
+    console.log('!!!');
+    try {
+      return callback(decodedUrl)
+    }
+    catch (error) {
+      console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
+    }
+  })
+}

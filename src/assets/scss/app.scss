@@ -24,6 +24,16 @@ a {
     outline: none;
   }
 }
+
+.draggable {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+.no-drag {
+  -webkit-user-select: auto;
+  -webkit-app-region: no-drag;
+}
+
 /*! purgecss end ignore */
 
 @tailwind components;
