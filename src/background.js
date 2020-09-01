@@ -20,11 +20,11 @@ async function createWindow() {
     backgroundColor: '#251558',
     titleBarStyle: 'hiddenInset',
     webPreferences: {
-      devTools: true,
-      // devTools: isDevelopment,
+      // devTools: true,
+      devTools: isDevelopment,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      // webSecurity: false,
+      webSecurity: false,
     }
   })
 

@@ -10,6 +10,7 @@
       @error="showErrorMessage"
       @loadedmetadata="setDuration"
       @ended="playNext"
+      crossorigin
     ></audio>
 
     <div

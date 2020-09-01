@@ -1,10 +1,6 @@
 <template>
   <div class="flex items-center space-x-4">
-    <icon
-      :name="$store.state.online ? 'online' : 'offline'"
-      class="w-6"
-      :class="$store.state.online ? 'text-green-400' : 'text-red-400'"
-    />
+    <icon v-if="$store.state.online" name="wifi" class="w-6 text-green-300" />
     <dropdown v-if="user" class="mt-1" placement="bottom-end">
       <div class="flex items-center cursor-pointer select-none group">
         <div
