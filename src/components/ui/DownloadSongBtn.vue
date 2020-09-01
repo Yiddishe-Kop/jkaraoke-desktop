@@ -26,11 +26,13 @@ import Fs from 'fs';
 import Path from 'path';
 import { mapState } from 'vuex';
 import { getSongsFolderPath } from '@/helpers/paths';
+import permissions from '@/mixins/permissions';
 
 export default {
   name: 'DownloadSongBtn',
   props: ['song', 'dark'],
   components: { ProgressCircle },
+  mixins: [permissions],
   data() {
     return {
       loading: false,
@@ -46,7 +48,7 @@ export default {
   },
   methods: {
     async handleClick() {
-      if (!this.$store.state.online) return;
+      if (!this.$store.state.online || !this.canPlay(this.song)) return;
       if (!this.isOffline) {
         this.loading = true;
         this.download()

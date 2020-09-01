@@ -29,6 +29,24 @@
       <aside
         class="p-1 m-2 space-y-1 overflow-y-auto text-purple-800 bg-purple-200 max-h-40 sm:max-h-full sm:w-64"
       >
+        <div class="mx-2 mt-3 mb-5">
+          <p class="text-sm">Show only:</p>
+          <div class="flex items-center space-x-4">
+            <span>
+              <input v-model="filters.offline" type="checkbox" id="offline" class="form-checkbox" />
+              <label for="offline" class="ml-1">Offline</label>
+            </span>
+            <span>
+              <input
+                v-model="filters.purchased"
+                type="checkbox"
+                id="purchased"
+                class="form-checkbox"
+              />
+              <label for="purchased" class="ml-1">Purchased</label>
+            </span>
+          </div>
+        </div>
         <h4 class="flex items-center justify-between m-2 mt-1 font-bold">
           <span class="flex items-center space-x-1">
             <icon name="filter" class="w-6 text-purple-500" />
@@ -107,6 +125,8 @@ export default {
         search: '',
         artist: '',
         genre: '',
+        offline: false,
+        purchased: false,
       },
     };
   },
@@ -132,6 +152,18 @@ export default {
               !!song.title.match(new RegExp(this.filters.search, 'i')) ||
               !!song.artist.name.match(new RegExp(this.filters.search, 'i'))
             );
+          }
+          return true;
+        })
+        .filter((song) => {
+          if (this.filters.offline) {
+            return this.$store.state.downloads[song.id];
+          }
+          return true;
+        })
+        .filter((song) => {
+          if (this.filters.purchased) {
+            return this.$store.state.auth.billing.purchasedSongs.some((i) => i == song.id);
           }
           return true;
         });
