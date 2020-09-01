@@ -37,6 +37,10 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
+
+    autoUpdater.logger = require("electron-log")
+    autoUpdater.logger.transports.file.level = "info"
+
     autoUpdater.checkForUpdatesAndNotify()
   }
 
