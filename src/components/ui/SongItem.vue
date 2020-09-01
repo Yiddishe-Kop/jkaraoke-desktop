@@ -1,11 +1,11 @@
 <template>
   <li
     class="flex items-center p-2 text-purple-400 transition rounded-md"
-    :class="[$store.state.online || isOffline ? 'opacity-100' : 'opacity-25', dark ? 'hover:bg-purple-900' : 'hover:bg-purple-200']"
+    :class="[enabled ? 'opacity-100' : 'opacity-25', dark ? 'hover:bg-purple-900' : 'hover:bg-purple-200']"
   >
     <component
-      :is="$store.state.online|| isOffline ? 'router-link' : 'div'"
-      :to="canPlay(song) ? { name: 'Player', params: { id: song.id }} : { name: 'Home' }"
+      :is="enabled ? 'router-link' : 'div'"
+      :to="{ name: 'Player', params: { id: song.id }}"
       class="flex flex-col flex-1 truncate"
     >
       <span
@@ -24,8 +24,8 @@
 
     <download-button :song="song" :dark="dark" :is-offline="isOffline" class="ml-2" />
     <component
-      :is="$store.state.online || isOffline ? 'router-link' : 'div'"
-      :to="canPlay(song) ? { name: 'Player', params: { id: song.id }} : { name: 'Home' }"
+      :is="enabled ? 'router-link' : 'div'"
+      :to="{ name: 'Player', params: { id: song.id }}"
       class="ml-4"
     >
       <icon name="play" class="w-6" :class="[brand.text]" />
@@ -66,6 +66,9 @@ export default {
     ...mapState(['downloads']),
     isOffline() {
       return this.downloads[this.song.id];
+    },
+    enabled() {
+      return (this.$store.state.online || this.isOffline) && this.canPlay(this.song);
     },
   },
 };

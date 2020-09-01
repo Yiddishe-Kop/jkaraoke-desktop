@@ -145,6 +145,8 @@ export default {
   filters: { timestamp },
   async mounted() {
     this.$refs.input.focus();
+    // refresh user data - billing, purchases etc.
+    this.$store.dispatch('getUserData');
 
     setTimeout(() => {
       if (!Object.keys(this.songs).length) {

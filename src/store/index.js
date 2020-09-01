@@ -14,7 +14,8 @@ export default new Vuex.Store({
   state: {
     auth: {
       user: null,
-      billing: {}
+      billing: {},
+      lastCheck: null,
     },
     songs: {},
     artists: {},
@@ -73,15 +74,33 @@ export default new Vuex.Store({
     GO_OFFLINE(state) {
       state.online = false
     },
+    SET_LAST_CHECK(state, date) {
+      state.auth.lastCheck = String(date)
+    }
+  },
+  getters: {
+    needsBillingCheck: state => {
+      const diffTime = Math.abs(new Date(state.auth.lastCheck) - new Date());
+      const daysAgo = diffTime / (1000 * 60 * 60 * 24);
+      // const secondsAgo = diffTime / 1000;
+      // return secondsAgo > 5
+      return daysAgo > 30
+    }
   },
   actions: {
-    async getUserData(context) {
-      const res = await axios.get("/auth/billing");
-      console.log(res);
-      context.commit("SET_USER", res.data.user);
+    async getUserData({ commit, getters }) {
+      try {
+        const res = await axios.get("/auth/billing");
+        commit("SET_USER", res.data.user);
 
-      delete res.data.user
-      context.commit("SET_BILLING", res.data);
+        delete res.data.user
+        commit("SET_BILLING", res.data);
+        commit("SET_LAST_CHECK", new Date());
+      } catch (error) { // offline
+        if (getters.needsBillingCheck) {
+          router.push({ name: "Verify" });
+        }
+      }
     },
     async updateLocalData(context) {
       const songs = await axios.get("/songs");

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Login from '../views/Login.vue'
+import Verify from '../views/Verify.vue'
 import Home from '../views/Home.vue'
 import Player from '../views/Player.vue'
 
@@ -17,6 +18,14 @@ const routes = [
       layout: 'clean'
     },
     component: Login
+  },
+  {
+    path: '/verify-subscription-status',
+    name: 'Verify',
+    meta: {
+      layout: 'clean'
+    },
+    component: Verify
   },
   {
     path: '/',
