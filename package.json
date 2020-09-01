@@ -1,12 +1,13 @@
 {
   "name": "jkaraoke-desktop",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Yiddishe Kop <newgraphil@gmail.com>",
   "description": "Sing Jewish karaoke offline",
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
     "electron:build": "vue-cli-service electron:build -mw",
+    "electron:publish": "vue-cli-service electron:build -p always -mw",
     "electron:serve": "vue-cli-service electron:serve",
     "hot": "vue-cli-service serve",
     "postinstall": "electron-builder install-app-deps",
@@ -21,6 +22,7 @@
     "axios-auth-refresh": "^2.2.7",
     "bezier-easing": "^2.1.0",
     "core-js": "^3.6.5",
+    "electron-updater": "^4.3.4",
     "fs-extra": "^9.0.1",
     "jsmediatags": "^3.9.3",
     "lodash": "^4.17.20",
