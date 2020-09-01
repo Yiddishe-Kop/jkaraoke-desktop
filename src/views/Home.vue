@@ -34,16 +34,16 @@
           <div class="flex items-center space-x-4">
             <span>
               <input v-model="filters.offline" type="checkbox" id="offline" class="form-checkbox" />
-              <label for="offline" class="ml-1">Offline</label>
+              <label for="offline" class="ml-1">Saved offline</label>
             </span>
-            <span>
+            <span v-if="!$store.state.auth.billing.subscribed">
               <input
                 v-model="filters.purchased"
                 type="checkbox"
                 id="purchased"
                 class="form-checkbox"
               />
-              <label for="purchased" class="ml-1">Purchased</label>
+              <label for="purchased" class="ml-1">My songs</label>
             </span>
           </div>
         </div>
