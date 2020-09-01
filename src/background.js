@@ -24,7 +24,7 @@ async function createWindow() {
       // devTools: isDevelopment,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      webSecurity: false,
+      // webSecurity: false,
     }
   })
 
