@@ -8,10 +8,16 @@
         <p>We haven't been able to connect to jKaraoke's servers for a month already.</p>
         <p>In order to continue using the app, please go online so we can verify your subscription status</p>
       </div>
-      <button
-        @click="tryToConnect"
-        class="px-3 py-2 mt-5 text-purple-200 bg-purple-900 rounded hover:bg-purple-1000"
-      >Try now</button>
+      <div class="flex flex-col space-y-2">
+        <button
+          @click="tryToConnect"
+          class="px-3 py-2 mt-5 text-purple-200 bg-purple-900 rounded hover:bg-purple-1000"
+        >Try now</button>
+        <button
+          @click="$store.dispatch('logout')"
+          class="px-3 py-2 mt-5 text-purple-200 bg-purple-600 rounded hover:bg-purple-800"
+        >Log out</button>
+      </div>
     </div>
   </div>
 </template>

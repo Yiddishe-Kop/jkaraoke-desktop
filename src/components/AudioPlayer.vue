@@ -280,7 +280,7 @@ export default {
       }
     },
     'tracker.durationPlayed': function (durationPlayed) {
-      if (durationPlayed > this.duration * 0.9) {
+      if (durationPlayed > this.duration * 0.51) {
         if (this.$store.state.online) {
           this.$http
             .post('views', {

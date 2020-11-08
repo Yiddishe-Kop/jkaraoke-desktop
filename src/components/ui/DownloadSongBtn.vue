@@ -1,21 +1,7 @@
 <template>
-  <button
-    @click="handleClick"
-    @mouseenter="offlineIcon = 'trash'"
-    @mouseleave="offlineIcon = 'check-circle'"
-  >
-    <icon
-      v-if="isOffline"
-      :name="offlineIcon"
-      class="w-6"
-      :class="[dark ? 'text-purple-200' : 'text-purple-600']"
-    />
-    <icon
-      v-else-if="!loading"
-      name="download"
-      class="w-6"
-      :class="[dark ? 'text-purple-200' : 'text-purple-600']"
-    />
+  <button @click="handleClick" @mouseenter="offlineIcon = 'trash'" @mouseleave="offlineIcon = 'check-circle'">
+    <icon v-if="isOffline" :name="offlineIcon" class="w-6" :class="[dark ? 'text-purple-200' : 'text-purple-600']" />
+    <icon v-else-if="!loading" name="download" class="w-6" :class="[dark ? 'text-purple-200' : 'text-purple-600']" />
     <progress-circle v-if="loading" :progress="progress" :size="28" />
   </button>
 </template>

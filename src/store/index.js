@@ -120,7 +120,9 @@ export default new Vuex.Store({
       );
     },
     async logout({ commit, dispatch, state }) {
-      await axios.post("/auth/logout");
+      try {
+        await axios.post("/auth/logout");
+      } catch (_) {}
       commit("SET_USER", null);
       commit("SET_BILLING", null);
       localStorage.setItem("token", '');
