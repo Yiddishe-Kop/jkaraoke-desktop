@@ -1,16 +1,16 @@
 @tailwind base;
 
 /*! purgecss start ignore */
-@import "transitions";
-@import "misc";
+@import 'transitions';
+@import 'misc';
 
 @font-face {
-  font-family: "Heebo var"; // variable font! [https://github.com/TypeNetwork/heebo]
+  font-family: 'Heebo var'; // variable font! [https://github.com/TypeNetwork/heebo]
   font-weight: 100 900;
   font-style: normal;
-  font-named-instance: "Regular";
+  font-named-instance: 'Regular';
   font-display: swap;
-  src: url("../fonts/Heebo-beta-VF.otf") format("otf"), url("../fonts/Heebo-beta-VF.woff2") format("woff2");
+  src: url('../fonts/Heebo-beta-VF.otf') format('otf'), url('../fonts/Heebo-beta-VF.woff2') format('woff2');
 }
 
 input,

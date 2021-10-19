@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "ProgressCircle",
+  name: 'ProgressCircle',
   props: {
     progress: {
       type: Number,
@@ -40,12 +40,10 @@ export default {
     circleStyle() {
       return {
         strokeDasharray: `${this.circumference} ${this.circumference}`,
-        strokeDashoffset: `${
-          this.circumference - (this.progress / 100) * this.circumference
-        }`,
-        transition: "stroke-dashoffset 0.35s",
-        transform: "rotate(-90deg)",
-        transformOrigin: "50% 50%",
+        strokeDashoffset: `${this.circumference - (this.progress / 100) * this.circumference}`,
+        transition: 'stroke-dashoffset 0.35s',
+        transform: 'rotate(-90deg)',
+        transformOrigin: '50% 50%',
       };
     },
   },

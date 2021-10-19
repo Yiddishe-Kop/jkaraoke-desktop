@@ -3,14 +3,14 @@ export default {
     return {
       playlistsPopup: {
         show: false,
-        songId: 0,
-      },
-    }
+        songId: 0
+      }
+    };
   },
   methods: {
     showPlaylists(songId) {
       this.playlistsPopup.show = true;
       this.playlistsPopup.songId = songId;
-    },
+    }
   }
-}
+};

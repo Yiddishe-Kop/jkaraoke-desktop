@@ -1,8 +1,6 @@
 <template>
   <transition name="popup">
-    <div
-      class="absolute z-50 origin-top-right bg-purple-100 shadow-xl w-80 top-6 right-6 rounded-xl text-purple-1000"
-    >
+    <div class="absolute z-50 origin-top-right bg-purple-100 shadow-xl w-80 top-6 right-6 rounded-xl text-purple-1000">
       <div @click.self="$emit('update:show-popup', false)" class="fixed inset-0 z-0"></div>
       <!-- <div class="relative z-50 flex justify-center mt-2 space-x-2 text-sm">
         <button

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="relative flex items-center justify-center h-full draggable"
-    style="line-height: 1.25;"
-  >
+  <div class="relative flex items-center justify-center h-full draggable" style="line-height: 1.25">
     <audio-visualizer
       :audio="audio"
       :lyric="currentLyric"

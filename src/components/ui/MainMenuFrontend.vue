@@ -14,15 +14,15 @@
 
 <script>
 export default {
-  name: "MainMenu",
+  name: 'MainMenu',
   data() {
     return {
       menuItems: [
         {
-          label: "Music",
-          route: "/",
-          icon: "music",
-          matcher: "music",
+          label: 'Music',
+          route: '/',
+          icon: 'music',
+          matcher: 'music',
         },
       ],
     };

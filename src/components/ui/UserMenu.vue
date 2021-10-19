@@ -4,7 +4,15 @@
     <dropdown v-if="user" class="mt-1" placement="bottom-end">
       <div class="flex items-center cursor-pointer select-none group">
         <div
-          class="text-purple-700 group-hover:text-purple-600 p-0.5 transition rounded-full focus:text-purple-600 whitespace-no-wrap"
+          class="
+            text-purple-700
+            group-hover:text-purple-600
+            p-0.5
+            transition
+            rounded-full
+            focus:text-purple-600
+            whitespace-no-wrap
+          "
           :class="{ 'border-4 border-purple-300 hover:border-purple-400': user.isAdmin }"
         >
           <avatar :user="user" />
@@ -18,15 +26,21 @@
         <div
           class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
           @click="openLinkInBrowser(`https://jkaraoke.com/users/${user.id}`)"
-        >My Profile</div>
+        >
+          My Profile
+        </div>
         <div
           class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
           @click="openLinkInBrowser('https://jkaraoke.com/playlists')"
-        >My Playlists</div>
+        >
+          My Playlists
+        </div>
         <div
           class="block px-6 py-2 rounded-none cursor-pointer hover:bg-purple-500 hover:text-white"
           @click="$store.dispatch('logout')"
-        >Log Out</div>
+        >
+          Log Out
+        </div>
       </div>
     </dropdown>
     <router-link v-else to="/login">

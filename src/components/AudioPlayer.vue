@@ -14,11 +14,11 @@
     ></audio>
 
     <div
-      class="relative flex items-center justify-between p-1 pt-3 bg-purple-100 shadow-2xl md:p-2 rounded-t-xl md:rounded-xl"
+      class="relative flex items-center justify-between p-1 pt-3 bg-purple-100 shadow-2xl  md:p-2 rounded-t-xl md:rounded-xl"
     >
       <div class="absolute top-0 left-0 right-0 flex justify-center transform -translate-y-5/6">
         <div
-          class="flex items-center px-3 py-1 space-x-2 text-xs leading-4 text-purple-100 truncate bg-purple-900 rounded-full shadow-md"
+          class="flex items-center px-3 py-1 space-x-2 text-xs leading-4 text-purple-100 truncate bg-purple-900 rounded-full shadow-md "
         >
           <icon name="music" class="w-4 -my-1" />
           <span class="font-bold">{{ song.title }}</span>
@@ -47,11 +47,7 @@
             <icon v-else :name="isPlaying ? 'pause' : 'play'" class="w-12 -m-1.5" />
           </button>
           <button @click="audio.muted = !audio.muted">
-            <icon
-              name="volume"
-              class="w-6"
-              :class="[audio.muted ? 'text-purple-300' : 'text-purple-800']"
-            />
+            <icon name="volume" class="w-6" :class="[audio.muted ? 'text-purple-300' : 'text-purple-800']" />
           </button>
         </div>
         <vue-slider
@@ -76,18 +72,11 @@
           :process-style="{ backgroundColor: '#ca81ec' }"
           :rail-style="{ backgroundColor: '#cbd5e0' }"
         />
-        <span
-          v-if="!disabled"
-          class="flex flex-wrap items-center justify-center text-xs font-bold text-purple-900"
-        >
+        <span v-if="!disabled" class="flex flex-wrap items-center justify-center text-xs font-bold text-purple-900">
           <span>{{ time | timestamp }}</span>
           <span class="ml-2 text-gray-600">{{ duration | timestamp }}</span>
           <button @click="toggleFullscreen" class="ml-2 p-0.5 rounded-full">
-            <icon
-              name="expand"
-              class="w-5"
-              :class="[isFullscreen ? 'text-purple-700' : 'text-purple-300']"
-            />
+            <icon name="expand" class="w-5" :class="[isFullscreen ? 'text-purple-700' : 'text-purple-300']" />
           </button>
         </span>
         <span v-else-if="errorMessage" class="text-xs text-purple-900">{{ errorMessage }}</span>

@@ -3,8 +3,8 @@
     <slot />
     <portal v-if="show" to="dropdown">
       <div>
-        <div style="z-index: 99998;" class="fixed inset-0 opacity-25 bg-purple-1000" @click="show = false" />
-        <div ref="dropdown" style="position: absolute; z-index: 99999;" @click.stop="show = autoClose ? false : true">
+        <div style="z-index: 99998" class="fixed inset-0 opacity-25 bg-purple-1000" @click="show = false" />
+        <div ref="dropdown" style="position: absolute; z-index: 99999" @click.stop="show = autoClose ? false : true">
           <slot name="dropdown" />
         </div>
       </div>

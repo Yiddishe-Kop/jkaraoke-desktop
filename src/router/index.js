@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import Login from '../views/Login.vue'
-import Verify from '../views/Verify.vue'
-import Home from '../views/Home.vue'
-import Player from '../views/Player.vue'
+import Login from '../views/Login.vue';
+import Verify from '../views/Verify.vue';
+import Home from '../views/Home.vue';
+import Player from '../views/Player.vue';
 
-import store from '../store'
+import store from '../store';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -43,20 +43,20 @@ const routes = [
     },
     component: Player
   }
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
 // Auth guard
 router.beforeEach((to, from, next) => {
   // if not logged in
   if (to.name !== 'Login' && !store.state.auth.user) {
-    next({ name: 'Login' })
+    next({ name: 'Login' });
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;

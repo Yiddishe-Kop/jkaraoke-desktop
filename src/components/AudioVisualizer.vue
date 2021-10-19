@@ -3,7 +3,11 @@
     <div class="absolute inset-0 bg-purple-gradient"></div>
     <div
       class="absolute inset-0"
-      style="background-color: var(--bg-color, #351884); opacity: var(--bg-purple-opacity); transition: all 0.7s ease-in;"
+      style="
+        background-color: var(--bg-color, #351884);
+        opacity: var(--bg-purple-opacity);
+        transition: all 0.7s ease-in;
+      "
     ></div>
     <div ref="scene" class="absolute inset-0"></div>
   </div>

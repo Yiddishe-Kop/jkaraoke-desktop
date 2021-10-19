@@ -1,37 +1,36 @@
 import SimplexNoise from 'simplex-noise';
 import * as THREE from 'three';
-import TWEEN from '@tweenjs/tween.js'
+import TWEEN from '@tweenjs/tween.js';
 import threeFont from 'three/examples/fonts/helvetiker_bold.typeface.json';
 import TextSprite from '@seregpie/three.text-sprite';
-import BezierEasing from 'bezier-easing'
+import BezierEasing from 'bezier-easing';
 
 class ThreeDvizualizer {
-
-  domEl = undefined
-  audio = undefined
-  noise = undefined
-  analyser = undefined
-  camera = undefined
-  scene = undefined
-  group = undefined
-  ballGroup = undefined
-  text = ''
-  lastGeneratedText = ''
-  font = new THREE.Font(threeFont)
-  textMesh = undefined
-  plane = undefined
-  plane2 = undefined
-  ball = undefined
-  ballMaterial = undefined
-  textMaterial = undefined
-  numbersGroup = undefined
-  renderer = undefined
-  dataArray = []
-  amp = 8
+  domEl = undefined;
+  audio = undefined;
+  noise = undefined;
+  analyser = undefined;
+  camera = undefined;
+  scene = undefined;
+  group = undefined;
+  ballGroup = undefined;
+  text = '';
+  lastGeneratedText = '';
+  font = new THREE.Font(threeFont);
+  textMesh = undefined;
+  plane = undefined;
+  plane2 = undefined;
+  ball = undefined;
+  ballMaterial = undefined;
+  textMaterial = undefined;
+  numbersGroup = undefined;
+  renderer = undefined;
+  dataArray = [];
+  amp = 8;
 
   constructor(audio, domEl) {
-    this.audio = audio
-    this.domEl = domEl
+    this.audio = audio;
+    this.domEl = domEl;
   }
 
   init = async () => {
@@ -88,19 +87,19 @@ class ThreeDvizualizer {
 
     this.ball = new THREE.Mesh(icosahedronGeometry, this.ballMaterial);
     this.ball.position.set(0, 0, 0);
-    this.ball.scale.set(1.3, 1.3, 1.3)
+    this.ball.scale.set(1.3, 1.3, 1.3);
     this.ballGroup = new THREE.Group();
     this.ballGroup.add(this.ball);
 
     this.numbersGroup = new THREE.Group();
-    this.numbersGroup.scale.set(5, 5, 5)
+    this.numbersGroup.scale.set(5, 5, 5);
     this.generateSmallNumbers();
     this.scene.add(this.numbersGroup);
 
     this.textMaterial = new THREE.MeshLambertMaterial({
-      color: '#D8DF25',
+      color: '#D8DF25'
     });
-    this.textMesh = this.getTextMesh(this.text, this.textMaterial)
+    this.textMesh = this.getTextMesh(this.text, this.textMaterial);
     this.group.add(this.textMesh);
 
     var ambientLight = new THREE.AmbientLight('#B794F4');
@@ -113,36 +112,36 @@ class ThreeDvizualizer {
     spotLight.castShadow = true;
     this.scene.add(spotLight);
 
-    this.group.add(this.ballGroup)
+    this.group.add(this.ballGroup);
     this.scene.add(this.group);
 
     this.domEl.appendChild(this.renderer.domElement);
     this.render();
-  }
+  };
 
-  isCountdown = () => !!this.text
+  isCountdown = () => !!this.text;
 
-  numberEasing = t => BezierEasing(0, 1, 1, 0)(t)
+  numberEasing = t => BezierEasing(0, 1, 1, 0)(t);
 
   render = () => {
-
-    if (this.text) { // show countdown
+    if (this.text) {
+      // show countdown
       if (this.text != this.lastGeneratedText) {
         // update the text mesh
-        this.group.remove(this.textMesh)
-        this.textMesh = this.getTextMesh(this.text, this.textMaterial)
+        this.group.remove(this.textMesh);
+        this.textMesh = this.getTextMesh(this.text, this.textMaterial);
         // rotate
         this.animateVector3(this.textMesh.rotation, new THREE.Vector3(0, Math.PI / 2, 0), {
           easing: this.numberEasing,
-          duration: 1000,
-        })
+          duration: 1000
+        });
         // scale
         if (this.text == '0') {
           // fly out towards camera
           this.animateVector3(this.textMesh.position, new THREE.Vector3(1.5, 0, 110), {
             easing: TWEEN.Easing.Quadratic.In,
-            duration: 950,
-          })
+            duration: 950
+          });
         } else if (Number(this.text) <= 5) {
           // from 5s: grow & shrink
           this.animateVector3(this.textMesh.scale, new THREE.Vector3(1.25, 1.25, 1.25), {
@@ -151,27 +150,18 @@ class ThreeDvizualizer {
             callback: () => {
               this.animateVector3(this.textMesh.scale, new THREE.Vector3(1, 1, 1), {
                 easing: TWEEN.Easing.Quadratic.In,
-                duration: 500,
-              })
+                duration: 500
+              });
             }
-          })
+          });
         }
-        this.group.attach(this.textMesh)
-        this.numbersGroup.children.forEach(sprite => sprite.text = this.text)
-        this.lastGeneratedText = this.text
+        this.group.attach(this.textMesh);
+        this.numbersGroup.children.forEach(sprite => (sprite.text = this.text));
+        this.lastGeneratedText = this.text;
       }
 
-      const colors = [
-        '#DE2644',
-        '#DE2726',
-        '#DE4626',
-        '#DE6626',
-        '#DE8526',
-        '#DEA526',
-        '#DEC426',
-        '#D8DF25',
-      ]
-      const number = Number(this.text)
+      const colors = ['#DE2644', '#DE2726', '#DE4626', '#DE6626', '#DE8526', '#DEA526', '#DEC426', '#D8DF25'];
+      const number = Number(this.text);
       // this.textMaterial.setValues({
       //   color: (number >= 0 && number < colors.length - 1) ? colors[number] : '#D8DF25'
       // });
@@ -183,22 +173,22 @@ class ThreeDvizualizer {
         // if (this.textMesh.rotation.y < 1.5707963) {
         //   this.textMesh.rotation.y += 0.05 // rotate the big number
         // }
-
       }
 
       this.ballMaterial.setValues({
         opacity: 0.2
-      })
-      this.amp = 8
-      this.textMaterial.visible = true
-      this.numbersGroup.visible = true
-    } else { // show ball
+      });
+      this.amp = 8;
+      this.textMaterial.visible = true;
+      this.numbersGroup.visible = true;
+    } else {
+      // show ball
       this.ballMaterial.setValues({
-        opacity: 0.3,
-      })
-      this.amp = 4
-      this.textMaterial.visible = false
-      this.numbersGroup.visible = false
+        opacity: 0.3
+      });
+      this.amp = 4;
+      this.textMaterial.visible = false;
+      this.numbersGroup.visible = false;
     }
 
     this.analyser.getByteFrequencyData(this.dataArray);
@@ -232,42 +222,40 @@ class ThreeDvizualizer {
         n.position.y = -16;
       }
       // move right/left
-      let moveBy = Math.randomBetween(1, 3.5) * 0.01
+      let moveBy = Math.randomBetween(1, 3.5) * 0.01;
       if (i % 2) {
-        n.position.x += moveBy
+        n.position.x += moveBy;
       } else {
-        n.position.x -= moveBy
+        n.position.x -= moveBy;
       }
 
       // bring back into viewable area
       if (n.position.x > 15) {
-        n.position.x = -15
+        n.position.x = -15;
       }
       if (n.position.x < -15) {
-        n.position.x = 15
+        n.position.x = 15;
       }
-    })
+    });
     TWEEN.update();
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.render);
-  }
+  };
 
   getTextMesh = (text, material) => {
-    material.opacity = 1
-    var textGeometry = new THREE.TextGeometry(text,
-      {
-        font: this.font,
-        size: 23,
-        height: 12,
-        curveSegments: 10,
-        bevelEnabled: true,
-        bevelThickness: 1,
-        bevelSize: 0.3,
-        bevelOffset: 0,
-        bevelSegments: 4
-      }
-    );
+    material.opacity = 1;
+    var textGeometry = new THREE.TextGeometry(text, {
+      font: this.font,
+      size: 23,
+      height: 12,
+      curveSegments: 10,
+      bevelEnabled: true,
+      bevelThickness: 1,
+      bevelSize: 0.3,
+      bevelOffset: 0,
+      bevelSegments: 4
+    });
     textGeometry.center();
     let numberMesh = new THREE.Mesh(textGeometry, material);
     numberMesh.position.set(0, 0, 0);
@@ -284,17 +272,17 @@ class ThreeDvizualizer {
       text: this.text,
       align: 'center'
     });
-    const NUM_OF_SPRITES = 8
+    const NUM_OF_SPRITES = 8;
     for (let i = 0; i < NUM_OF_SPRITES; i++) {
-      let spriteClone = sprite.clone()
-      let xPos = Math.randomBetween(-15, 15)
-      let yPos = Math.randomBetween(-16, 16)
-      let zPos = -20
+      let spriteClone = sprite.clone();
+      let xPos = Math.randomBetween(-15, 15);
+      let yPos = Math.randomBetween(-16, 16);
+      let zPos = -20;
       spriteClone.position.set(xPos, yPos, zPos);
 
-      this.numbersGroup.add(spriteClone)
+      this.numbersGroup.add(spriteClone);
     }
-  }
+  };
 
   makeRoughBall = (mesh, bassFr, treFr) => {
     mesh.geometry.vertices.forEach((vertex, i) => {
@@ -305,26 +293,31 @@ class ThreeDvizualizer {
       var distance =
         offset +
         bassFr +
-        this.noise.noise3D(vertex.x + time * rf * 7, vertex.y + time * rf * 8, vertex.z + time * rf * 9) * this.amp * treFr;
+        this.noise.noise3D(vertex.x + time * rf * 7, vertex.y + time * rf * 8, vertex.z + time * rf * 9) *
+          this.amp *
+          treFr;
       vertex.multiplyScalar(distance);
     });
     mesh.geometry.verticesNeedUpdate = true;
     mesh.geometry.normalsNeedUpdate = true;
     mesh.geometry.computeVertexNormals();
     mesh.geometry.computeFaceNormals();
-  }
+  };
 
   makeRoughGround = (mesh, distortionFr) => {
     mesh.geometry.vertices.forEach((vertex, i) => {
       var time = Date.now();
-      var distance = (this.noise.noise2D(vertex.x + time * 0.0003, vertex.y + time * 0.0001) + 0) * distortionFr * Math.min(this.amp, 2);
+      var distance =
+        (this.noise.noise2D(vertex.x + time * 0.0003, vertex.y + time * 0.0001) + 0) *
+        distortionFr *
+        Math.min(this.amp, 2);
       vertex.z = distance;
     });
     mesh.geometry.verticesNeedUpdate = true;
     mesh.geometry.normalsNeedUpdate = true;
     mesh.geometry.computeVertexNormals();
     mesh.geometry.computeFaceNormals();
-  }
+  };
 
   animateVector3 = (vectorToAnimate, target, options) => {
     options = options || {};
@@ -334,29 +327,28 @@ class ThreeDvizualizer {
       duration = options.duration || 2000;
     // create the tween
     var tweenVector3 = new TWEEN.Tween(vectorToAnimate)
-      .to({ x: to.x, y: to.y, z: to.z, }, duration)
+      .to({ x: to.x, y: to.y, z: to.z }, duration)
       .easing(easing)
-      .onUpdate(function (d) {
+      .onUpdate(function(d) {
         if (options.update) {
           options.update(d);
         }
       })
-      .onComplete(function () {
+      .onComplete(function() {
         if (options.callback) options.callback();
       });
     // start the tween
     tweenVector3.start();
     // return the tween in case we want to manipulate it later on
     return tweenVector3;
-  }
+  };
 
   onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+  };
 }
-
 
 //some helper functions here
 function fractionate(val, minVal, maxVal) {
@@ -370,15 +362,15 @@ function modulate(val, minVal, maxVal, outMin, outMax) {
 }
 
 function avg(arr) {
-  var total = arr.reduce(function (sum, b) {
+  var total = arr.reduce(function(sum, b) {
     return sum + b;
   });
   return total / arr.length;
 }
 
 function max(arr) {
-  return arr.reduce(function (a, b) {
+  return arr.reduce(function(a, b) {
     return Math.max(a, b);
   });
 }
-export default ThreeDvizualizer
+export default ThreeDvizualizer;

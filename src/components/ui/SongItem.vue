@@ -5,29 +5,20 @@
   >
     <component
       :is="enabled ? 'router-link' : 'div'"
-      :to="{ name: 'Player', params: { id: song.id }}"
+      :to="{ name: 'Player', params: { id: song.id } }"
       class="flex flex-col flex-1 truncate"
     >
-      <span
-        class="font-semibold"
-        :class="[dark ? 'text-white' : 'text-purple-800']"
-      >{{ song.title }}</span>
-      <span
-        class="mt-1 text-sm text-left"
-        :class="[dark ? 'hover:text-purple-200' : 'hover:text-purple-800']"
-      >{{ song.artist ? song.artist.name : 'Unknown Artist' }}</span>
+      <span class="font-semibold" :class="[dark ? 'text-white' : 'text-purple-800']">{{ song.title }}</span>
+      <span class="mt-1 text-sm text-left" :class="[dark ? 'hover:text-purple-200' : 'hover:text-purple-800']">{{
+        song.artist ? song.artist.name : 'Unknown Artist'
+      }}</span>
     </component>
-    <span
-      class="mx-4 text-sm font-semibold leading-none"
-      :class="[dark ? 'text-purple-200' : 'text-purple-600']"
-    >{{ song.duration | timestamp }}</span>
+    <span class="mx-4 text-sm font-semibold leading-none" :class="[dark ? 'text-purple-200' : 'text-purple-600']">{{
+      song.duration | timestamp
+    }}</span>
 
     <download-button :song="song" :dark="dark" :is-offline="isOffline" class="ml-2" />
-    <component
-      :is="enabled ? 'router-link' : 'div'"
-      :to="{ name: 'Player', params: { id: song.id }}"
-      class="ml-4"
-    >
+    <component :is="enabled ? 'router-link' : 'div'" :to="{ name: 'Player', params: { id: song.id } }" class="ml-4">
       <icon name="play" class="w-6" :class="[brand.text]" />
     </component>
   </li>
