@@ -14,7 +14,7 @@
     ></audio>
 
     <div
-      class="relative flex items-center justify-between p-1 pt-3 bg-purple-100 shadow-2xl  md:p-2 rounded-t-xl md:rounded-xl"
+      class="relative flex items-center justify-between p-1 pt-3 bg-purple-100 shadow-2xl md:p-2 rounded-t-xl md:rounded-xl"
     >
       <div class="absolute top-0 left-0 right-0 flex justify-center transform -translate-y-5/6">
         <div
@@ -174,7 +174,7 @@ export default {
       } else {
         audioSrc = Path.resolve(getSongsFolderPath(), String(this.song.id));
         // this.$refs.audio.src = 'file://' + audioSrc;
-        this.$refs.audio.src = 'yiddishe-kop-protocol://' + audioSrc;
+        this.$refs.audio.src = 'yiddishe-kop://' + audioSrc;
         reader = new MediaTags.Reader(audioSrc);
         reader.setFileReader(NodeFileReader);
       }

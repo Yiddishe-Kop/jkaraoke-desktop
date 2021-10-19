@@ -5,6 +5,9 @@ import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-buil
 import { autoUpdater } from 'electron-updater';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+// TEMP FIX: @see https://github.com/axios/axios/issues/535
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
@@ -21,8 +24,8 @@ async function createWindow() {
     backgroundColor: '#251558',
     titleBarStyle: 'hiddenInset',
     webPreferences: {
-      // devTools: true,
-      devTools: isDevelopment,
+      devTools: true,
+      // devTools: isDevelopment,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       webSecurity: false
@@ -105,8 +108,8 @@ if (isDevelopment) {
 }
 
 function registerLocalResourceProtocol() {
-  protocol.registerFileProtocol('yiddishe-kop-protocol', (request, callback) => {
-    const url = request.url.replace(/^yiddishe-kop-protocol:\/\//, '');
+  protocol.registerFileProtocol('yiddishe-kop', (request, callback) => {
+    const url = request.url.replace(/^yiddishe-kop:\/\//, '');
     // Decode URL to prevent errors when loading filenames with UTF-8 chars or chars like "#"
     const decodedUrl = decodeURI(url); // Needed in case URL contains spaces
     console.log('!!!');
