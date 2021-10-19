@@ -16,7 +16,8 @@
         :loading="sending"
         class="block py-2 mt-3 text-purple-100 rounded-md bg-purple-1000 hover:bg-purple-900"
         type="submit"
-      >Log In</loading-button>
+        >Log In</loading-button
+      >
 
       <p v-if="err" class="mt-2 text-xs leading-4 text-red-600">{{ err }}</p>
       <p class="mt-6 text-sm leading-4 text-center">Don't have an account?</p>
@@ -24,7 +25,9 @@
         type="button"
         @click="register"
         class="block py-2 mt-3 text-purple-100 bg-purple-800 rounded-md hover:bg-purple-900"
-      >Sign up</button>
+      >
+        Sign up
+      </button>
     </form>
   </div>
 </template>
